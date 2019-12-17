@@ -1,0 +1,52 @@
+new
+add five_angles 0
+1 1 2 2 3 3 4 4 5 5
+add six_angles 1
+1 1 2 2 3 3 4 4 5 5 6 6
+add eight_angles 2
+1 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8
+show
+figure 0
+cordinats 1 1 2 2 3 3 4 4 5 5
+center 3 3
+square 0
+figure 1
+cordinats 1 1 2 2 3 3 4 4 5 5 6 6
+center 3.5 3.5
+square 0
+figure 2
+cordinats 1 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8
+center 4.5 4.5
+square 0
+undo
+show
+figure 0
+cordinats 1 1 2 2 3 3 4 4 5 5
+center 3 3
+square 0
+figure 1
+cordinats 1 1 2 2 3 3 4 4 5 5 6 6
+center 3.5 3.5
+square 0
+remove 0
+show
+figure 0
+cordinats 1 1 2 2 3 3 4 4 5 5 6 6
+center 3.5 3.5
+square 0
+undo
+show
+figure 0
+cordinats 1 1 2 2 3 3 4 4 5 5
+center 3 3
+square 0
+figure 1
+cordinats 1 1 2 2 3 3 4 4 5 5 6 6
+center 3.5 3.5
+square 0
+undo
+show
+figure 0
+cordinats 1 1 2 2 3 3 4 4 5 5
+center 3 3
+square 0
