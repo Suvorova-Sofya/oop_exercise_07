@@ -32,20 +32,23 @@ void document::load(std::istream& is){
 
 void document::add_figure(std::unique_ptr<figure>&& ptr,size_t id){
     figures_.insert(figures_.begin() + id,std::move(ptr));
-    operation op;
-    op.id_of_op=1;
-    op.id_of_fig=id;
-    op.ptr=nullptr;
+    add_command op1;
+    std::unique_ptr<add_command> op;
+    op=std::make_unique<add_command>(std::move(op1));
+    op->id=id;
+    op->ptr_=nullptr;
     operations_.push_back(std::move(op));
 }
 
 void document::remove_figure(size_t id){
-    operation op;
-    op.id_of_op=2;
-    op.id_of_fig=id;
-    op.ptr=std::move(figures_[id]);
+    remove_command op1;
+    std::unique_ptr<remove_command> op;
+    op=std::make_unique<remove_command>(std::move(op1));
+    op->id=id;
+    op->ptr_=std::move(figures_[id]);
     operations_.push_back(std::move(op));
     figures_.erase(figures_.begin() + id);
+
 }
 
 void document::show(std::ostream &os) const {
@@ -62,13 +65,16 @@ void document::show(std::ostream &os) const {
 
 void document::undo() {
     if(operations_.size()>0) {
-        if (operations_[operations_.size() - 1].id_of_op == 1) {
-            remove_figure(operations_[operations_.size() - 1].id_of_fig);
-        } else {
-            add_figure(std::move(operations_[operations_.size() - 1].ptr),
-                       operations_[operations_.size() - 1].id_of_fig);
-        }
-        operations_.erase(operations_.begin() + operations_.size() - 2);
-        operations_.erase(operations_.begin() + operations_.size() - 1);
+        operations_[operations_.size()-1]->undo(*this);
+        operations_.erase(operations_.begin()+operations_.size()-1);
     }
+}
+
+void document::add_command::undo(document &doc) {
+
+    doc.figures_.erase(doc.figures_.begin() + id);
+}
+
+void document::remove_command::undo(document &doc) {
+    doc.figures_.insert(doc.figures_.begin() + id,std::move(ptr_));
 }

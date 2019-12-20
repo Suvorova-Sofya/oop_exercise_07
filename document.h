@@ -9,11 +9,7 @@
 #include <memory>
 #include <iostream>
 
-struct operation{
-    int id_of_op;
-    size_t id_of_fig;
-    std::unique_ptr<figure> ptr;
-};
+
 
 struct document{
 
@@ -27,9 +23,24 @@ struct document{
     void show(std::ostream &os) const;
 
     void undo();
+
+    struct command{
+        size_t id;
+        std::unique_ptr<figure> ptr_;
+        virtual void undo(document &doc)=0;
+    };
+
+    struct add_command:public command{
+        void undo(document &doc) override;
+    };
+
+    struct remove_command:public command{
+        void undo(document &doc) override;
+    };
+
 private:
     std::vector<std::unique_ptr<figure>> figures_;
-    std::vector<operation> operations_;
+    std::vector<std::unique_ptr<command>> operations_;
 };
 
 #endif

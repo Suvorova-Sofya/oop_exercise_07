@@ -9,10 +9,11 @@
 #include "six_angles.h"
 #include "eight_angles.h"
 #include "document.h"
+#include "factory.h"
 
 int main() {
     std::string command;
-    std::string figures;
+    factory fact;
     std::unique_ptr<document> doc1;
     while(std::cin >> command){
         if(command=="new"){
@@ -34,22 +35,7 @@ int main() {
             }
             is.close();
         }else if(command=="add"){
-            std::cin >> figures;
-            size_t id;
-            std::cin >> id;
-            if(figures == "five_angles"){
-                std::unique_ptr<figure> new_figure;
-                new_figure=std::make_unique<five_angles>( five_angles(std::cin));
-                doc1->add_figure(std::move(new_figure),id);
-            }else if(figures == "six_angles"){
-                std::unique_ptr<figure> new_figure;
-                new_figure=std::make_unique<six_angles>( six_angles(std::cin));
-                doc1->add_figure(std::move(new_figure),id);
-            }else if(figures == "eight_angles"){
-                std::unique_ptr<figure> new_figure;
-                new_figure=std::make_unique<eight_angles>( eight_angles(std::cin));
-                doc1->add_figure(std::move(new_figure),id);
-            }
+            fact.construct(doc1);
         }else if(command=="remove"){
             size_t id;
             std::cin >> id;
