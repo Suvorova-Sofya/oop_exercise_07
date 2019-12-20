@@ -61,11 +61,14 @@ void document::show(std::ostream &os) const {
 }
 
 void document::undo() {
-    if(operations_[operations_.size()-1].id_of_op==1){
-        remove_figure(operations_[operations_.size()-1].id_of_fig);
-    }else{
-        add_figure(std::move(operations_[operations_.size()-1].ptr),operations_[operations_.size()-1].id_of_fig);
+    if(operations_.size()>0) {
+        if (operations_[operations_.size() - 1].id_of_op == 1) {
+            remove_figure(operations_[operations_.size() - 1].id_of_fig);
+        } else {
+            add_figure(std::move(operations_[operations_.size() - 1].ptr),
+                       operations_[operations_.size() - 1].id_of_fig);
+        }
+        operations_.erase(operations_.begin() + operations_.size() - 2);
+        operations_.erase(operations_.begin() + operations_.size() - 1);
     }
-    operations_.erase(operations_.begin()+operations_.size()-2);
-    operations_.erase(operations_.begin()+operations_.size()-1);
 }
